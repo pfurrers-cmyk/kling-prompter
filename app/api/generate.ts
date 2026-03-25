@@ -1,14 +1,13 @@
-import type { Request, Response } from 'express'
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 const OPENROUTER_BASE = 'https://openrouter.ai/api/v1'
-const TIMEOUT_MS = 90_000  // increased for vision + generation
+const TIMEOUT_MS = 90_000
 
-// Content part for multimodal messages (vision)
 type ContentPart =
   | { type: 'text'; text: string }
   | { type: 'image_url'; image_url: { url: string; detail?: 'auto' | 'low' | 'high' } }
 
-export interface GenerateRequest {
+interface GenerateRequest {
   apiKey: string
   model: string
   messages: Array<{ role: string; content: string | ContentPart[] }>
@@ -61,12 +60,18 @@ function mapErrorCode(status: number, message: string): string {
   }
 }
 
-export async function proxyGenerate(req: Request, res: Response): Promise<void> {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+  if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
   const body = req.body as GenerateRequest
 
   if (!body.apiKey) {
-    res.status(400).json({ error: 'Chave de API não fornecida' })
-    return
+    return res.status(400).json({ error: 'Chave de API não fornecida' })
   }
 
   const {
@@ -104,15 +109,12 @@ export async function proxyGenerate(req: Request, res: Response): Promise<void> 
   if (stop && stop.length > 0) payload.stop = stop
   if (response_format) payload.response_format = response_format
   if (provider && Object.keys(provider).length > 0) {
-    // Sanitize provider object — remove default values that might cause 400 errors
     const sanitizedProvider: Record<string, unknown> = { ...provider }
-    
     if (sanitizedProvider.sort === 'default') delete sanitizedProvider.sort
     if (sanitizedProvider.data_collection === 'allow') delete sanitizedProvider.data_collection
     if (sanitizedProvider.allow_fallbacks === true) delete sanitizedProvider.allow_fallbacks
     if (sanitizedProvider.require_parameters === false) delete sanitizedProvider.require_parameters
     if (sanitizedProvider.zdr === false) delete sanitizedProvider.zdr
-    
     if (Object.keys(sanitizedProvider).length > 0) {
       payload.provider = sanitizedProvider
     }
@@ -123,13 +125,12 @@ export async function proxyGenerate(req: Request, res: Response): Promise<void> 
   const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS)
 
   try {
-    // console.log('Payload to OpenRouter:', JSON.stringify(payload, null, 2))
     const response = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'http://localhost:3456',
+        'HTTP-Referer': `https://${req.headers.host ?? 'kling-prompter.vercel.app'}`,
         'X-Title': 'Kling Prompter PAM.ON',
       },
       body: JSON.stringify(payload),
@@ -138,13 +139,12 @@ export async function proxyGenerate(req: Request, res: Response): Promise<void> 
 
     clearTimeout(timeout)
 
-    const data = await response.json() as unknown
+    const data = await response.json()
 
     if (!response.ok) {
       const message = extractApiError(data)
       const friendlyMessage = mapErrorCode(response.status, message)
-      res.status(response.status).json({ error: friendlyMessage })
-      return
+      return res.status(response.status).json({ error: friendlyMessage })
     }
 
     res.json(data)
@@ -156,52 +156,5 @@ export async function proxyGenerate(req: Request, res: Response): Promise<void> 
       const msg = err instanceof Error ? err.message : 'Erro de conexão desconhecido'
       res.status(500).json({ error: `Erro ao conectar ao OpenRouter: ${msg}` })
     }
-  }
-}
-
-export async function proxyModels(req: Request, res: Response): Promise<void> {
-  const apiKey = req.headers['x-api-key'] as string | undefined
-
-  try {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'http://localhost:3456',
-      'X-Title': 'Kling Prompter PAM.ON',
-    }
-    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`
-
-    const response = await fetch(`${OPENROUTER_BASE}/models`, { headers })
-    const data = await response.json() as unknown
-    res.json(data)
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Erro desconhecido'
-    res.status(500).json({ error: `Erro ao buscar modelos: ${msg}` })
-  }
-}
-
-export async function proxyValidateKey(req: Request, res: Response): Promise<void> {
-  const { apiKey } = req.body as { apiKey: string }
-
-  if (!apiKey) {
-    res.status(400).json({ valid: false, error: 'Chave não fornecida' })
-    return
-  }
-
-  try {
-    const response = await fetch(`${OPENROUTER_BASE}/models`, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'http://localhost:3456',
-      },
-    })
-
-    if (response.ok) {
-      res.json({ valid: true })
-    } else {
-      res.json({ valid: false, error: `Chave inválida (HTTP ${response.status})` })
-    }
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Erro de conexão'
-    res.json({ valid: false, error: msg })
   }
 }
