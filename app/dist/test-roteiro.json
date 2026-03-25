@@ -1,0 +1,93 @@
+{
+  "title": "Distância de Seguimento Segura",
+  "blocks": [
+    {
+      "type": "section",
+      "text": "Introdução — O que é distância de seguimento"
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>A distância de seguimento é o espaço que você mantém entre o seu caminhão e o veículo da frente. Manter essa distância adequada é fundamental para garantir sua segurança e a dos outros motoristas na estrada.</p>"
+    },
+    {
+      "type": "slide",
+      "narrationHtml": "<p><strong>Regra dos 3 segundos:</strong> Para cada 10 km/h de velocidade, mantenha 1 carro de distância. Em 60 km/h = 6 carros de distância.</p>"
+    },
+    {
+      "type": "video",
+      "narrationHtml": "<p>Observe agora uma simulação em pista seca mostrando a diferença entre distância segura e insegura. Repare no espaço entre os veículos e como isso afeta a capacidade de frenagem.</p>"
+    },
+    {
+      "type": "note",
+      "text": "🎬 Ref. vídeo: Tomada aérea de rodovia BR-116 mostrando dois caminhões em sequência — um com distância adequada (6+ carros) e outro muito próximo (1-2 carros). Câmera drone de cima para baixo, luz do dia."
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Como você acabou de ver, a diferença visual é enorme. Agora vamos entender o que acontece fisicamente durante uma frenagem de emergência com carga total.</p>"
+    },
+    {
+      "type": "section",
+      "text": "A física da frenagem — Por que caminhões precisam de mais distância"
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Um caminhão carregado com 45 toneladas rodando a 80 km/h precisa de até 120 metros para parar completamente. Isso é equivalente a um campo de futebol inteiro. Vamos ver isso na prática.</p>"
+    },
+    {
+      "type": "video",
+      "narrationHtml": "<p>Aqui você vê um caminhão bitruck realizando uma frenagem de emergência em pista molhada a 80 km/h. Observe a distância percorrida até a parada completa e o comportamento da carga.</p>"
+    },
+    {
+      "type": "note",
+      "text": "🎬 Ref. vídeo: Câmera lateral fixa de pista de teste — bitruck branco freia em linha reta em pista molhada. Lombar visível, freios travando levemente. Marcadores de distância no asfalto (20m, 40m, 60m, 80m, 100m, 120m)."
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Impactante, não é? Esses 120 metros representam a diferença entre você chegar em casa e não chegar. Agora vamos falar sobre fatores que aumentam ainda mais essa distância.</p>"
+    },
+    {
+      "type": "section",
+      "text": "Fatores que afetam a distância — Tempo de reação, carga e condições"
+    },
+    {
+      "type": "slide",
+      "narrationHtml": "<p>Fatores multiplicadores:<br/>• Chuva: +40% na distância de frenagem<br/>• Carga máxima: +30% na distância<br/>• Fadiga: +50% no tempo de reação<br/>• Pneus desgastados: +25% na distância</p>"
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>O pior cenário é a combinação de todos esses fatores. Um motorista fatigado, com caminhão carregado, em chuva forte, precisa de 200 metros ou mais para parar. O que você faz para se proteger?</p>"
+    },
+    {
+      "type": "video",
+      "narrationHtml": "<p>Veja como o motorista profissional Paulo calcula a distância de seguimento no trânsito intenso da BR-116. Observe o olhar, a postura e como ele mantém o espaço mesmo sob pressão de outros motoristas.</p>"
+    },
+    {
+      "type": "note",
+      "text": "🎬 Ref. vídeo: POV da cabine do caminhão (câmera atrás do motorista mostrando painel e para-brisa) — motorista Paulo, 40 anos, uniforme azul, olhando para frente. Tráfego intenso, BR-116, dia nublado. Painel com velocímetro visível em 70 km/h."
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Percebeu como o Paulo mantém o ritmo sem acelerar quando o espaço fecha? Isso é disciplina profissional. Agora vamos ao exercício prático para você desenvolver esse hábito.</p>"
+    },
+    {
+      "type": "section",
+      "text": "Como aplicar na prática — O método dos 3 pontos fixos"
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Para calcular a distância de seguimento sem depender de instrumentos, use o método dos 3 pontos fixos. Quando o veículo da frente passar por um ponto fixo na estrada, você deve demorar pelo menos 3 segundos para passar pelo mesmo ponto.</p>"
+    },
+    {
+      "type": "video",
+      "narrationHtml": "<p>Acompanhe a demonstração do método dos 3 pontos fixos em condição real de estrada. O instrutor vai mostrar passo a passo como identificar o ponto de referência e contar os 3 segundos corretamente.</p>"
+    },
+    {
+      "type": "note",
+      "text": "🎬 Ref. vídeo: Vista da cabine do caminhão, câmera no para-brisa. Rodovia com placa de limite de velocidade visível. Caminhão à frente passa pela placa, instrutor conta em voz alta: 1001, 1002, 1003. Linha tracejada do asfalto como referência visual secundária."
+    },
+    {
+      "type": "presenter",
+      "narrationHtml": "<p>Simples, não é? Três segundos. Isso é tudo que você precisa lembrar. Mas atenção: em condições adversas, dobre esse tempo. Em chuva forte ou com carga máxima, você precisa de pelo menos 6 segundos de distância.</p>"
+    }
+  ]
+}
